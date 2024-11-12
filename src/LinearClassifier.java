@@ -26,6 +26,11 @@ public class LinearClassifier {
         }
     }
 
+    private static int predict(double x, double y) {
+        double lineY = m * x + b;
+        return (y > lineY) ? 1 : 0;
+    }
+
     public static void printData() {
         for (double[] point : points) {
             double x = point[0];
