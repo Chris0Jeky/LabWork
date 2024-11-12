@@ -6,39 +6,47 @@ public class LinearClassifier {
             {10, -16, 1}, {-20, -40, 1}, {4, 4, 1}
     };
 
-    static double m = 1.0; // Initial slope
-    static double b = 0.0; // Initial intercept
-    static double learningRate = 0.5;
+    static double[] weights = {0.0, 0.0}; // Initial weights for x and y
+    static double bias = 0.0; // Initial bias
+    static double learningRate = 0.01;
+    static int maxIterations = 10000;
 
     public static void main(String[] args) {
         printData();
-        System.out.println(" \n Prediction and Actuals: \n");
+        System.out.println(" \n Prediction and Actuals before training: \n");
         testPredictions();
         System.out.println(" \n Training: \n");
-        singleIterationTraining();
-        System.out.println(" \n Prediction and Actuals: \n");
+        train();
+        System.out.println(" \n Prediction and Actuals after training: \n");
         testPredictions();
     }
 
-    public static void singleIterationTraining() {
-        for (double[] point : points) {
-            double x = point[0];
-            double y = point[1];
-            int actualCategory = (int) point[2];
+    public static void train() {
+        for (int i = 0; i < maxIterations; i++) {
+            int errors = 0;
+            for (double[] point : points) {
+                double x1 = point[0];
+                double x2 = point[1];
+                int t = (int) point[2];
+                t = (t == 0) ? -1 : 1; // Adjust labels to -1 and +1
 
-            int predictedCategory = predict(x, y);
-            int error = actualCategory - predictedCategory;
+                double activation = weights[0] * x1 + weights[1] * x2 + bias;
+                int y = (activation >= 0) ? 1 : -1;
 
-            if (error != 0) {
-                System.out.println("Error: " + error);
-                System.out.println("Slope: " + m);
-                System.out.println("Intercept: " + b);
-                // Adjust line parameters using the perceptron rule
-                m += learningRate * error * x;
-                b += learningRate * error;
-                System.out.println("Adjusting line: New m = " + m + ", New b = " + b);
+                if (y != t) {
+                    errors++;
+                    // Update weights and bias
+                    weights[0] += learningRate * t * x1;
+                    weights[1] += learningRate * t * x2;
+                    bias += learningRate * t;
+                }
+            }
+            if (errors == 0) {
+                System.out.println("Training completed in " + (i+1) + " iterations.");
+                break;
             }
         }
+        System.out.println("Final weights: w0 = " + weights[0] + ", w1 = " + weights[1] + ", bias = " + bias);
     }
 
     public static void testPredictions() {
@@ -47,23 +55,23 @@ public class LinearClassifier {
 
         for (double[] point : points) {
             total += 1;
-            double x = point[0];
-            double y = point[1];
+            double x1 = point[0];
+            double x2 = point[1];
             int actualCategory = (int) point[2];
-            int predictedCategory = predict(x, y);
+            int predictedCategory = predict(x1, x2);
             if (predictedCategory == actualCategory) {
                 correct += 1;
             }
-            System.out.println("Point (" + x + ", " + y + ") - Actual: "
+            System.out.println("Point (" + x1 + ", " + x2 + ") - Actual: "
                     + actualCategory + ", Predicted: " + predictedCategory);
 
-            System.out.println("Correct: "  + correct + " out of " + total);
         }
+        System.out.println("Correct: "  + correct + " out of " + total);
     }
 
-    private static int predict(double x, double y) {
-        double lineY = m * x + b;
-        return (y > lineY) ? 1 : 0;
+    private static int predict(double x1, double x2) {
+        double activation = weights[0] * x1 + weights[1] * x2 + bias;
+        return (activation >= 0) ? 1 : 0;
     }
 
     public static void printData() {
