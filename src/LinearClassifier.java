@@ -8,7 +8,7 @@ public class LinearClassifier {
 
     static double m = 1.0; // Initial slope
     static double b = 0.0; // Initial intercept
-    static double learningRate = 0.01;
+    static double learningRate = 0.5;
 
     public static void main(String[] args) {
         printData();
@@ -37,19 +37,27 @@ public class LinearClassifier {
                 m += learningRate * error * x;
                 b += learningRate * error;
                 System.out.println("Adjusting line: New m = " + m + ", New b = " + b);
-                break; // Only one adjustment in this iteration
             }
         }
     }
 
     public static void testPredictions() {
+        int total = 0;
+        int correct = 0;
+
         for (double[] point : points) {
+            total += 1;
             double x = point[0];
             double y = point[1];
             int actualCategory = (int) point[2];
             int predictedCategory = predict(x, y);
+            if (predictedCategory == actualCategory) {
+                correct += 1;
+            }
             System.out.println("Point (" + x + ", " + y + ") - Actual: "
                     + actualCategory + ", Predicted: " + predictedCategory);
+
+            System.out.println("Correct: "  + correct + " out of " + total);
         }
     }
 
