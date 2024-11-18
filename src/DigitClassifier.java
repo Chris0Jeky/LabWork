@@ -7,7 +7,8 @@ public class DigitClassifier {
     static double[] weights = new double[64]; // Weights for 64 features
     static double bias = 0.0; // Bias term
     static double learningRate = 0.01;
-    static int maxIterations = 10000;
+    static int maxRounds = 10;
+    static int maxIterations = 10;
 
     public static void main(String[] args) {
         loadData(); // Load the dataset
@@ -20,7 +21,11 @@ public class DigitClassifier {
     }
 
     public static void train() {
-        for (int i = 0; i < maxIterations; i++) {
+        for (int i = 0; i < maxRounds; i++) {
+            int iteration = 0;
+            if (iteration >= maxIterations){
+                break;
+            }
             int errors = 0;
             for (double[] point : points) {
                 double[] features = new double[64];
@@ -44,7 +49,10 @@ public class DigitClassifier {
                         weights[j] += learningRate * t * features[j];
                     }
                     bias += learningRate * t;
+                    iteration++;
+                    System.out.println("Iteration " + iteration + ": " + activation);
                 }
+                System.out.println("Round " + (i + 1) + ": Number of errors = " + errors);
             }
             if (errors == 0) {
                 System.out.println("Training completed in " + (i + 1) + " iterations.");
