@@ -1,9 +1,12 @@
 public class MultiLayerPerceptron {
 
+    double weight1 = 0.5;
+    double weight2 = 0.5;
+
     // Perceptron with two inputs
     public double perceptron(double input1, double input2) {
         // Linear transfer function: output = input
-        double sum = input1 + input2;
+        double sum = (input1 * weight1) + (input2 * weight2);
         return sum; // Pass-through function
     }
 
