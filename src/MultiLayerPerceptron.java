@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class MultiLayerPerceptron {
 
     // Weights for input to hidden layer
@@ -13,17 +15,24 @@ public class MultiLayerPerceptron {
 
     public int multiLayerPerceptron(double input1, double input2) {
         // Hidden layer computations
+        System.out.println("weights of neuron 1" + Arrays.toString(weights_input_hidden[0]));
+        System.out.println("weights of neuron 2" + Arrays.toString(weights_input_hidden[1]));
         double[] hidden_outputs = new double[2];
         for (int i = 0; i < 2; i++) {
+            System.out.println("input1 " + input1 + " input2 " + input2);
+            System.out.println("hidden output [i] " + hidden_outputs[i]);
             double sum = (input1 * weights_input_hidden[i][0]) + (input2 * weights_input_hidden[i][1]) + bias_hidden[i];
             hidden_outputs[i] = stepFunction(sum);
+            System.out.println("Step function of sum hidden " + hidden_outputs[i]);
         }
 
         // Output layer computation
         double sum_output = (hidden_outputs[0] * weights_hidden_output[0]) +
                 (hidden_outputs[1] * weights_hidden_output[1]) +
                 bias_output;
+        System.out.println("sum output " + sum_output);
         int output = stepFunction(sum_output);
+        System.out.println("step function of sum output " + output);
 
         return output;
     }
