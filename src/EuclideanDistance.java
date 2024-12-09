@@ -47,4 +47,11 @@ public class EuclideanDistance {
         }
         return sequence;
     }
+
+    public static int[] swap(int[] array, int i, int j) {
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+        return array;
+    }
 }
