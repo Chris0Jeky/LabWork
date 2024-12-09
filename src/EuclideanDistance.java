@@ -4,10 +4,13 @@ public class EuclideanDistance {
         System.out.println("Euclidean Distance");
 
         int[][] cities = {{1, 1}, {5, 5}, {10, 3}, {2, 7}};
+        int[] sequence = new int[cities.length];
+
 
         print2DArrays(cities);
 
         System.out.println("Distance between city 1 and city 2: " + euclideanDistance(cities[0], cities[1]));
+        System.out.println(calculatePermuations(cities, sequence, false));
     }
 
     public static void print2DArrays(int[][] array) {
@@ -29,5 +32,19 @@ public class EuclideanDistance {
 
         // Compute the Euclidean distance
         return (float) Math.sqrt(Math.pow((a[0] - b[0]), 2) + Math.pow((a[1] - b[1]), 2));
+    }
+
+    public static int[] calculatePermuations(int[][] array, int[] sequence, boolean stop) {
+        boolean yes = true;
+        System.out.println("Calculating permuations");
+        System.out.println("stop = " + stop);
+        if (!stop){
+            if (yes){
+                stop = true;
+                System.out.println("stop = true now");
+            }
+            calculatePermuations(array, sequence, stop);
+        }
+        return sequence;
     }
 }
