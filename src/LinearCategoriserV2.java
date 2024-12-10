@@ -1,7 +1,16 @@
+import java.util.Arrays;
+
 public class LinearCategoriserV2 {
+
+
+    static int slope = 2;
+    static int offset = 1;
+
     public static void main(String[] args) {
         System.out.println("Hello World");
+        System.out.println(Arrays.toString(returnLine(3, slope, offset)));
     }
+
 
     static double[][] points = {
             {3, 3, 0}, {3, 5, 0}, {3, 18, 0}, {7, 15, 0}, {18, 18, 0}, {0, 0, 0},
